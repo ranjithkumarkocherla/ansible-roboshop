@@ -1,0 +1,53 @@
+- name: create ec2 and route53 records
+  hosts: all
+  connection: local
+  vars:
+   sg_id: sg-084d8f62b70c60d18
+   ami_id: ami-0220d79f3f480ecf5
+   domain_name: awsdevops527.online
+   env: dev
+   action: create
+   instances:
+   - mongodb
+   - catalogue
+  tasks:
+  ### CREATE ###
+  - name: craete ec2 instance
+    amazon.aws.ec2_instance:
+     instance_type: "t3.micro"
+     security_group: "{{ sg_id }}"
+     image_id: "{{ ami_id }}"
+     name: "{{ item }}-{{ env }}"
+     tags: 
+      Project: roboshop
+      Component: "{{ item }}"
+      Environment: "{{ env }}"
+      Name: "{{ item }}-{{ env }}"
+    loop: "{{ instances }}"
+    register: ec2_output
+    when: action == "create"
+
+  - name: print the output
+    ansible.builtin.debug:
+     msg: "{{ ec2-output }}"
+    when: action == "create"
+
+  - name: create r53 records
+    amazon.aws.route53:
+     state: present
+     zone: "{{ domain_name }}"
+     record: "{{ item.item }}-{{ env }}.{{ domain_name }}"
+      # mongodb-dev.awsdevops527.online, frontend-dev.awsdevops527.online
+     type: A
+     ttl: 1
+     value: "{{ item.instances[0].private_ip_address }}"
+     wait: false
+     overwrite: true
+    loop: "{{ ec2_output.results }}" # list
+    when: action == "create"
+
+
+
+
+    
+     
