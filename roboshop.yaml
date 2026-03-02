@@ -6,7 +6,7 @@
    ami_id: ami-0220d79f3f480ecf5
    domain_name: awsdevops527.online
    env: dev
-   action: create
+  #  action: create
    instances:
    - mongodb
    - catalogue
@@ -25,12 +25,12 @@
       Name: "{{ item }}-{{ env }}"
     loop: "{{ instances }}"
     register: ec2_output
-    when: action == "create"
+    # when: action == "create"
 
   - name: print the output
     ansible.builtin.debug:
      msg: "{{ ec2_output }}"
-    when: action == "create"
+    # when: action == "create"
 
   - name: create r53 records
     amazon.aws.route53:
@@ -44,7 +44,7 @@
      wait: false
      overwrite: true
     loop: "{{ ec2_output.results }}" # list
-    when: action == "create"
+    # when: action == "create"
 
   - name: create r53 record for frontend
     amazon.aws.route53:
@@ -59,7 +59,7 @@
     loop: "{{ ec2_output.results }}"
     when:  # and
     - item.item == "frontend"
-    - action == "create"
+    # - action == "create"
 
 
 
