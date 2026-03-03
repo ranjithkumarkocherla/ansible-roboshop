@@ -11,7 +11,13 @@
    - mongodb
    - catalogue
    - redis
+   - user
    - cart
+   - mysql 
+   - shipping
+   - rabbitmq
+   - payment 
+   - frontend
   tasks:
   ### CREATE ###
   - name: craete ec2 instance
