@@ -1,7 +1,7 @@
 - name: configure payment server
   hosts: payment
   become: yes
-  task:
+  tasks:
   - name: install python
     ansible.builtin.dnf:
      name: "{{ item }}"
