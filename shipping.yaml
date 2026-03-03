@@ -64,7 +64,7 @@
      daemon_reload: true
 
   - name: install dependencie
-    ansible.builin.pip:
+    ansible.builtin.pip:
      name: "{{ item }}"
      executable: pip3.9
     loop:
