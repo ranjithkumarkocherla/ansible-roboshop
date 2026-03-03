@@ -3,7 +3,7 @@
 - become: yes
   tasks:
   - name: enable redis 7
-    asible.builtin.command: dnf module enable redis:7 -y
+    ansible.builtin.command: dnf module enable redis:7 -y
 
   - name: install redis
     ansible.builtin.dnf:
@@ -24,6 +24,6 @@
 
   - name: start and enable redis
     ansible.builtin.service:
-        name: nginx
-        state: started
-        enabled: yes
+     name: nginx
+     state: started
+     enabled: yes
