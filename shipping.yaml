@@ -60,9 +60,7 @@
      dest: /etc/systemd/system/shipping.service
 
   - name: daemon reload
-    ansible.builtin.systemd.service:
-     name: shipping
-     state: started
+    ansible.builtin.systemd_service:
      daemon_reload: true
 
   - name: install dependencie
