@@ -64,8 +64,8 @@
      state: present
 
   - name: check products loaded
-    ansible.builtin.command: mongosh --host "{{ MONGODB-HOST }}" </app/db/master-data.js
-    when: catalogue_output.stdout | init < 0
+    ansible.builtin.command: mongosh --host "{{ MONGODB-HOST }}" --quiet  --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+    when: catalogue_output.stdout
 
   - name: start catalogue
     ansible.builtin.service:
