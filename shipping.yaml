@@ -61,6 +61,8 @@
 
   - name: daemon reload
     ansible.builtin.systemd.service:
+     name: shipping
+     state: started
      daemon_reload: true
 
   - name: install dependencie
